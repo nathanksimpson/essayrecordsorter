@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essay Data Sorter</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Essay Data Sorter</h1>
+            <p class="subtitle">Parse and filter essay evaluation data by Class, Essay Type, Evaluator, and Evaluation status</p>
+        </header>
+
+        <section class="input-section">
+            <h2>1. Input Data</h2>
+            <div class="input-methods">
+                <div class="paste-area-container">
+                    <label for="pasteArea">Paste tab-separated data here:</label>
+                    <textarea 
+                        id="pasteArea" 
+                        placeholder="Paste your data here. Each line should be a row, columns separated by tabs.&#10;&#10;Example:&#10;안승우S(Eddie A)	중1 유마 M^2511	김재진	News	Edit(O)-Eval(O)	온라인	2025-12-08"
+                        rows="8"
+                    ></textarea>
+                    <button id="parsePasteBtn" class="btn btn-primary">Parse Pasted Data</button>
+                </div>
+                <div class="file-upload-container">
+                    <label for="fileInput">Or upload Excel file:</label>
+                    <input type="file" id="fileInput" accept=".xlsx,.xls" />
+                    <div class="file-info" id="fileInfo"></div>
+                </div>
+            </div>
+            <div id="parseStatus" class="status-message"></div>
+        </section>
+
+        <section class="filter-section" id="filterSection" style="display: none;">
+            <h2>2. Filter Results</h2>
+            <div class="filters-container">
+                <div class="filter-group" id="classFilterGroup">
+                    <h3>Class</h3>
+                    <div class="checkbox-container" id="classCheckboxes"></div>
+                </div>
+                <div class="filter-group" id="essayTypeFilterGroup">
+                    <h3>Essay Type</h3>
+                    <div class="checkbox-container" id="essayTypeCheckboxes"></div>
+                </div>
+                <div class="filter-group" id="teacherFilterGroup">
+                    <h3>Teacher</h3>
+                    <div class="checkbox-container" id="teacherCheckboxes"></div>
+                </div>
+                <div class="filter-group" id="evaluatorFilterGroup">
+                    <h3>Evaluator/Method</h3>
+                    <div class="checkbox-container" id="evaluatorCheckboxes"></div>
+                </div>
+                <div class="filter-group" id="evaluationFilterGroup">
+                    <h3>Evaluation Status</h3>
+                    <div class="checkbox-container" id="evaluationCheckboxes"></div>
+                </div>
+                <div class="filter-group" id="dateRangeFilterGroup">
+                    <h3>Date Range</h3>
+                    <div class="date-range-container">
+                        <div class="date-input-group">
+                            <label for="fromDate">From Date:</label>
+                            <input type="date" id="fromDate" class="date-input">
+                        </div>
+                        <div class="date-input-group">
+                            <label for="toDate">To Date:</label>
+                            <input type="date" id="toDate" class="date-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="clearFiltersBtn" class="btn btn-secondary">Clear All Filters</button>
+            <button id="clearDataBtn" class="btn btn-secondary">Clear All Data</button>
+        </section>
+
+        <section class="results-section" id="resultsSection" style="display: none;">
+            <h2>3. Results</h2>
+            <div class="results-header">
+                <div id="resultsCount" class="results-count"></div>
+                <div class="selection-buttons">
+                    <button id="selectAllBtn" class="btn btn-secondary" style="display: none;">Select All</button>
+                    <button id="clearSelectionBtn" class="btn btn-secondary" style="display: none;">Clear Selection</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Class</th>
+                            <th>Code</th>
+                            <th>Teacher</th>
+                            <th>Essay Type</th>
+                            <th>Evaluation</th>
+                            <th>Evaluator</th>
+                            <th>Date</th>
+                            <th>Copy/Paste</th>
+                            <th>Reviewed and Updated</th>
+                            <th>
+                                <div class="export-header">
+                                    <span>Export Names List</span>
+                                    <button id="copyExportBtn" class="btn-copy" title="Copy checked names">Copy</button>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
